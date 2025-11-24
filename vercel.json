@@ -7,11 +7,5 @@
         { "key": "Content-Type", "value": "text/html" }
       ]
     }
-  ],
-  "rewrites": [
-    { "source": "/check-eligibility", "destination": "/index.html" },
-    { "source": "/check-eligibility/(.*)", "destination": "/index.html" },
-    { "source": "/optimize-strategy", "destination": "/index.html" },
-    { "source": "/optimize-strategy/(.*)", "destination": "/index.html" }
   ]
 }
