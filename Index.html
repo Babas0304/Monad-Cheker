@@ -72,8 +72,6 @@
     <meta property="fc:frame" content="vNext" />
     <meta property="fc:frame:image" content="https://placehold.co/600x315/1d2b3a/ffffff?text=MONAD+AIRDROP+CHECKER+Click+to+Analyze+Your+Activity" />
     
-    <!-- Dihapus: fc:frame:input:text -->
-    
     <!-- Tombol sekarang menggunakan action 'link' untuk membuka aplikasi di browser -->
     <meta property="fc:frame:button:1" content="Click to Check Score in Browser ➡️" />
     <meta property="fc:frame:button:1:action" content="link" />
@@ -82,7 +80,7 @@
 </head>
 <body>
 
-    <!-- Main Application View (The rest of the body code remains the same as it runs in the browser) -->
+    <!-- Main Application View -->
     <div id="app" class="flex flex-col items-center justify-center p-4 sm:p-8 text-white frame-container mx-auto">
         
         <div class="text-center w-full max-w-xl p-6 bg-gray-800 rounded-xl shadow-2xl border border-gray-700">
@@ -148,7 +146,6 @@
     <script type="module">
         // ====================================================================
         // FIREBASE SETUP (Mandatory for Canvas environment)
-        // (Code disembunyikan untuk menghemat ruang, asumsikan ini bekerja)
         // ====================================================================
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
