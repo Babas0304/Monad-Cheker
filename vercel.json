@@ -1,4 +1,13 @@
 {
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=0, must-revalidate" },
+        { "key": "Content-Type", "value": "text/html" }
+      ]
+    }
+  ],
   "rewrites": [
     { "source": "/check-eligibility", "destination": "/index.html" },
     { "source": "/check-eligibility/(.*)", "destination": "/index.html" },
