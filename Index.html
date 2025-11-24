@@ -60,12 +60,11 @@
 
     <!--
     ========================================================================================
-    FARCASTER FRAME META TAGS (Simulation)
+    FARCASTER FRAME META TAGS
     ========================================================================================
     
-    IMPORTANT NOTE:
-    * REPLACE "https://monad-cheker.vercel.app/" with your public hosting URL.
-    * REPLACE "YOUR_IMAGE_URL" with your image URL (1.91:1 ratio).
+    ACTION REQUIRED:
+    * REPLACE "https://monad-cheker.vercel.app/" with your actual Vercel domain URL (e.g., https://monad-cheker.vercel.app)
     * REPLACE "YOUR_MEDIUM_ARTICLE_URL" with your article link.
     -->
     
@@ -73,7 +72,10 @@
     <meta property="fc:frame" content="vNext" />
     <meta property="fc:frame:image" content="https://placehold.co/600x315/1d2b3a/ffffff?text=MONAD+AIRDROP+CHECKER+Analyze+Your+Activity" />
     <meta property="fc:frame:input:text" content="Describe your crypto activity (e.g., 'I bridged to Arbitrum 10 times and did 5 Monad testnet transactions')" />
-    <meta property="fc:frame:post_url" content="https://monad-cheker.vercel.app//check-eligibility" />
+    
+    <!-- FIXED: Ensure only one slash after the domain -->
+    <meta property="fc:frame:post_url" content="https://monad-cheker.vercel.app/check-eligibility" /> 
+    
     <meta property="fc:frame:button:1" content="Check Eligibility Score 💯" />
     <meta property="fc:frame:button:1:action" content="post" />
 
