@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Monad Airdrop Eligibility Checker</title>
+    <title>AI Custom Analysis App</title>
     <!-- Tailwind CSS CDN for styling -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
@@ -60,22 +60,18 @@
 
     <!--
     ========================================================================================
-    FARCASTER FRAME META TAGS (FINAL STABLE VERSION - FORCE LINK)
+    FARCASTER FRAME META TAGS (EDIT THIS SECTION FOR YOUR NEW APP)
     ========================================================================================
-    
-    ACTION REQUIRED:
-    * REPLACE "https://monad-cheker.vercel.app" with your actual Vercel domain URL.
-    * REPLACE "YOUR_MEDIUM_ARTICLE_URL" with your article link.
     -->
     
     <!-- Initial Frame: FORCE LINK ACTION -->
     <meta property="fc:frame" content="vNext" />
-    <meta property="fc:frame:image" content="https://placehold.co/600x315/1d2b3a/ffffff?text=MONAD+AIRDROP+CHECKER+Click+to+Analyze+Your+Activity" />
+    <meta property="fc:frame:image" content="https://placehold.co/600x315/1d2b3a/ffffff?text=CUSTOM+AI+APP+Click+to+Start" />
     
-    <!-- Tombol sekarang menggunakan action 'link' untuk membuka aplikasi di browser -->
-    <meta property="fc:frame:button:1" content="Click to Check Score in Browser ➡️" />
+    <!-- GANTI URL INI DENGAN URL VERCEL BARU ANDA -->
+    <meta property="fc:frame:button:1" content="Click to Start Analysis in Browser ➡️" />
     <meta property="fc:frame:button:1:action" content="link" />
-    <meta property="fc:frame:button:1:target" content="https://monad-cheker.vercel.app/" /> 
+    <meta property="fc:frame:button:1:target" content="https://monad-hono-backend.vercel.app/" /> 
 
 </head>
 <body>
@@ -84,27 +80,29 @@
     <div id="app" class="flex flex-col items-center justify-center p-4 sm:p-8 text-white frame-container mx-auto">
         
         <div class="text-center w-full max-w-xl p-6 bg-gray-800 rounded-xl shadow-2xl border border-gray-700">
-            <h1 class="text-3xl font-extrabold mb-4 gradient-text">Monad Airdrop Eligibility Checker (AI)</h1>
+            <!-- GANTI JUDUL APLIKASI DI SINI -->
+            <h1 class="text-3xl font-extrabold mb-4 gradient-text">AI Custom Analysis App</h1>
             <p class="text-gray-400 mb-8">
-                Enter your crypto activity description. Gemini AI will analyze it and provide your most likely Monad airdrop eligibility score (1-100).
+                Enter your data below. Gemini AI will analyze it and provide a score (1-100) and detailed analysis based on your custom criteria.
             </p>
             
             <!-- Input Area for User Activity -->
             <div class="mb-6">
-                <textarea id="activityInput" rows="4" placeholder="e.g., I did 5 Monad testnet transactions, ran a node, and was active in Discord for 3 months..." 
+                <!-- GANTI PLACEHOLDER INPUT DI SINI -->
+                <textarea id="activityInput" rows="4" placeholder="e.g., Describe the characteristics of your ideal business partner..." 
                           class="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg text-sm text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"></textarea>
             </div>
 
             <button id="checkEligibilityBtn" onclick="checkEligibility()" class="btn-base btn-gemini w-full flex items-center justify-center">
-                <span id="buttonText">Check Airdrop Eligibility Score 💯</span>
+                <span id="buttonText">Get Custom Analysis Score 💯</span>
             </button>
 
             <!-- Result Area -->
             <div id="resultContainer" class="mt-8 p-6 bg-gray-900 rounded-lg text-left hidden border border-indigo-700">
-                <h2 class="text-2xl font-bold mb-3 text-indigo-400">Your Airdrop Eligibility Analysis:</h2>
+                <h2 class="text-2xl font-bold mb-3 text-indigo-400">Your Custom Analysis:</h2>
                 
                 <div class="flex items-center mb-4">
-                    <span class="text-gray-300 mr-4 font-semibold">Eligibility Score (1-100):</span>
+                    <span class="text-gray-300 mr-4 font-semibold">Score (1-100):</span>
                     <span id="eligibilityScore" class="gradient-text">--</span>
                 </div>
 
@@ -113,17 +111,17 @@
                 <!-- Optimization Feature -->
                 <div id="optimizationSection" class="mt-4 pt-4 border-t border-gray-700 hidden">
                     <button id="optimizeBtn" onclick="optimizeStrategy()" class="btn-base btn-gemini w-full flex items-center justify-center text-sm">
-                        <span id="optimizeBtnText">Optimize My Airdrop Strategy ✨</span>
+                        <span id="optimizeBtnText">Get Optimization Suggestions ✨</span>
                     </button>
                     <div id="optimizationResult" class="mt-4 p-3 bg-gray-800 rounded-lg text-left hidden">
-                        <p class="font-bold mb-2 text-emerald-400">Monad Optimization Suggestions:</p>
+                        <p class="font-bold mb-2 text-emerald-400">Optimization Suggestions:</p>
                         <div id="optimizationText" class="text-sm text-gray-300 whitespace-pre-line"></div>
                     </div>
                 </div>
                 <!-- End Optimization Feature -->
 
                 <p class="text-xs text-red-400 mt-4">
-                    *DISCLAIMER: This is an AI analysis based on market speculation. This score is NOT a guarantee from Monad Labs.*
+                    *DISCLAIMER: This is an AI analysis grounded by Google Search data.*
                 </p>
 
                 <div id="sourcesContainer" class="mt-4 text-xs text-gray-500 border-t border-gray-700 pt-3">
@@ -135,7 +133,7 @@
             <!-- Link to your Medium Article -->
             <a href="YOUR_MEDIUM_ARTICLE_URL" target="_blank" class="block mt-6">
                 <button class="btn-base w-full bg-purple-600 hover:bg-purple-700 text-white shadow-md">
-                    Read My In-Depth $MONAD Analysis 🧠
+                    Read My Detailed Report 🧠
                 </button>
             </a>
             
@@ -145,7 +143,7 @@
 
     <script type="module">
         // ====================================================================
-        // FIREBASE SETUP (Mandatory for Canvas environment)
+        // FIREBASE SETUP (Ignored for Farcaster Frame Link Action)
         // ====================================================================
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
@@ -189,12 +187,21 @@
         const apiKey = ""; 
         const API_MODEL = 'gemini-2.5-flash-preview-09-2025';
 
-        const eligibilitySystemPrompt = "You are a Monad Airdrop Eligibility Analyst. Your role is to assess user activity based on probable airdrop criteria (Testnet usage, community contribution, general EVM activity, and high-value interactions). Your response MUST be structured to include a score from 1 to 100 and a detailed analysis. Your analysis should be critical and informative, grounded in real-time Monad news and speculation.";
+        // ====================================================================
+        // CONFIGURATION VARIABLES: GANTI SEMUA INI UNTUK APLIKASI BARU ANDA!
+        // ====================================================================
         
-        const optimizationSystemPrompt = "You are an Airdrop Strategy Consultant. Based on the provided activity summary and eligibility analysis, generate exactly three (3) specific, actionable steps a user should take right now to immediately increase their chances for the Monad Airdrop. Focus on current Testnet campaigns, high-value community interactions, and relevant cross-chain activity. Output MUST be a numbered list (1., 2., 3.) written in clear, concise English.";
+        // 1. SYSTEM PROMPT (Peran AI untuk Analisis Utama)
+        const eligibilitySystemPrompt = "You are an expert business partner analyst. Your role is to assess user input based on business criteria (stability, growth potential, skill compatibility). Your response MUST be structured to include a score from 1 to 100 and a detailed analysis.";
+        
+        // 2. SYSTEM PROMPT (Peran AI untuk Optimasi/Saran)
+        const optimizationSystemPrompt = "You are a professional business consultant. Based on the provided analysis, generate exactly three (3) specific, actionable steps a user should take to improve their situation or achieve their goal. Output MUST be a numbered list (1., 2., 3.) written in clear, concise English.";
+
+        // 3. USER QUERY (Pertanyaan detail untuk AI saat Cek Score)
+        const baseUserQuery = "Assess the following user input based on the established criteria. Provide a score from 1 to 100 and a detailed analysis of the strengths and weaknesses. Format your response clearly: start with the score, followed by the analysis paragraph.";
 
 
-        // Implement Exponential Backoff
+        // Implement Exponential Backoff (Code ini JANGAN diubah)
         async function fetchWithBackoff(url, options, maxRetries = 5) {
             for (let i = 0; i < maxRetries; i++) {
                 try {
@@ -223,7 +230,7 @@
             const optimizationSection = document.getElementById('optimizationSection');
 
             if (!input) {
-                analysisTextDiv.innerHTML = 'Please describe your crypto activity for analysis.';
+                analysisTextDiv.innerHTML = 'Please describe your activity for analysis.';
                 resultContainer.classList.remove('hidden');
                 scoreElement.textContent = '--';
                 return;
@@ -232,22 +239,20 @@
             // UI Feedback (Loading)
             btn.disabled = true;
             resultContainer.classList.add('hidden');
-            optimizationSection.classList.add('hidden'); // Hide optimization section during check
+            optimizationSection.classList.add('hidden');
             scoreElement.textContent = '--';
             analysisTextDiv.innerHTML = `<div class="flex items-center text-indigo-400"><div class="loading-spinner"></div>Analyzing eligibility (Using Gemini AI)...</div>`;
             resultContainer.classList.remove('hidden');
             sourcesList.innerHTML = '';
             
-            const userPrompt = `Based on the most likely Monad airdrop criteria (Testnet, community, high-value EVM actions), assess the following user activity. Provide a score from 1 to 100 and a detailed analysis of their strengths and weaknesses.
-                                User Activity: "${input}"
-                                Format your response clearly: start with the score, followed by the analysis paragraph.`;
+            const userPrompt = `${baseUserQuery}\n\nUser Input: "${input}"`;
 
             try {
                 const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${API_MODEL}:generateContent?key=${apiKey}`;
                 
                 const payload = {
                     contents: [{ parts: [{ text: userPrompt }] }],
-                    tools: [{ "google_search": {} }], // Enable Google Search grounding
+                    tools: [{ "google_search": {} }],
                     systemInstruction: {
                         parts: [{ text: eligibilitySystemPrompt }]
                     },
@@ -265,7 +270,6 @@
                 if (candidate && candidate.content?.parts?.[0]?.text) {
                     const text = candidate.content.parts[0].text;
                     
-                    // Attempt to extract score (simple regex: find 1-3 digits at the start)
                     const scoreMatch = text.match(/(\d{1,3})/);
                     const score = scoreMatch ? scoreMatch[0] : 'N/A';
                     
@@ -279,7 +283,6 @@
                     
                     analysisTextDiv.textContent = analysisContent;
                     
-                    // Show optimization section after successful check
                     optimizationSection.classList.remove('hidden');
 
 
@@ -293,7 +296,7 @@
                                 title: attribution.web?.title,
                             }))
                             .filter(source => source.uri && source.title)
-                            .slice(0, 3); // Max 3 sources
+                            .slice(0, 3);
                     }
 
                     sourcesList.innerHTML = '';
@@ -309,7 +312,7 @@
 
                 } else {
                     scoreElement.textContent = '---';
-                    analysisTextDiv.textContent = 'Failed to generate eligibility analysis. Please try again.';
+                    analysisTextDiv.textContent = 'Failed to generate analysis. Please try again.';
                 }
 
             } catch (error) {
@@ -333,9 +336,9 @@
             optimizationResultDiv.classList.remove('hidden');
             optimizationTextDiv.innerHTML = `<div class="flex items-center text-emerald-400"><div class="loading-spinner"></div>Generating optimization plan...</div>`;
 
-            const optimizationPrompt = `User Activity Summary: "${input}". 
-                                        Current Eligibility Analysis: "${currentAnalysis}".
-                                        Generate 3 specific action steps to improve their eligibility now.`;
+            const optimizationPrompt = `User Input: "${input}". 
+                                        Current Analysis: "${currentAnalysis}".
+                                        Generate 3 specific action steps to improve their outcome now.`;
             
             try {
                 const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${API_MODEL}:generateContent?key=${apiKey}`;
