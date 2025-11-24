@@ -60,29 +60,29 @@
 
     <!--
     ========================================================================================
-    FARCASTER FRAME META TAGS (FINAL CORRECTION)
+    FARCASTER FRAME META TAGS (FINAL STABLE VERSION - FORCE LINK)
     ========================================================================================
     
     ACTION REQUIRED:
-    * REPLACE "https://monad-cheker.vercel.app/" with your actual Vercel domain URL (e.g., https://monad-cheker.vercel.app)
+    * REPLACE "https://monad-cheker.vercel.app" with your actual Vercel domain URL.
     * REPLACE "YOUR_MEDIUM_ARTICLE_URL" with your article link.
     -->
     
-    <!-- Initial Frame: Prompt for input -->
+    <!-- Initial Frame: FORCE LINK ACTION -->
     <meta property="fc:frame" content="vNext" />
-    <meta property="fc:frame:image" content="https://placehold.co/600x315/1d2b3a/ffffff?text=MONAD+AIRDROP+CHECKER+Analyze+Your+Activity" />
-    <meta property="fc:frame:input:text" content="Describe your crypto activity (e.g., 'I bridged to Arbitrum 10 times and did 5 Monad testnet transactions')" />
+    <meta property="fc:frame:image" content="https://placehold.co/600x315/1d2b3a/ffffff?text=MONAD+AIRDROP+CHECKER+Click+to+Analyze+Your+Activity" />
     
-    <!-- FIX: POST directly to the root URL (guaranteed to exist) -->
-    <meta property="fc:frame:post_url" content="https://monad-cheker.vercel.app/" /> 
+    <!-- Dihapus: fc:frame:input:text -->
     
-    <meta property="fc:frame:button:1" content="Check Eligibility Score 💯" />
-    <meta property="fc:frame:button:1:action" content="post" />
+    <!-- Tombol sekarang menggunakan action 'link' untuk membuka aplikasi di browser -->
+    <meta property="fc:frame:button:1" content="Click to Check Score in Browser ➡️" />
+    <meta property="fc:frame:button:1:action" content="link" />
+    <meta property="fc:frame:button:1:target" content="https://monad-cheker.vercel.app/" /> 
 
 </head>
 <body>
 
-    <!-- Main Application View -->
+    <!-- Main Application View (The rest of the body code remains the same as it runs in the browser) -->
     <div id="app" class="flex flex-col items-center justify-center p-4 sm:p-8 text-white frame-container mx-auto">
         
         <div class="text-center w-full max-w-xl p-6 bg-gray-800 rounded-xl shadow-2xl border border-gray-700">
@@ -148,6 +148,7 @@
     <script type="module">
         // ====================================================================
         // FIREBASE SETUP (Mandatory for Canvas environment)
+        // (Code disembunyikan untuk menghemat ruang, asumsikan ini bekerja)
         // ====================================================================
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
