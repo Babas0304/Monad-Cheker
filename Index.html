@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monad Airdrop Eligibility Checker</title>
+    <!-- Tailwind CSS CDN for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom styles */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0d1117; /* Dark crypto theme */
+        }
+        .frame-container {
+            min-height: 600px;
+        }
+        .gradient-text {
+            background-image: linear-gradient(to right, #6EE7B7, #10B981, #06B6D4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        /* Styling for the main button */
+        .btn-base {
+            border: none;
+            border-radius: 8px;
+            padding: 10px 20px;
+            font-weight: 600;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+        .btn-gemini {
+            background-color: #4f46e5; /* Indigo */
+            color: white;
+        }
+        .btn-gemini:hover {
+            background-color: #4338ca;
+        }
+        .loading-spinner {
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-top: 4px solid #4f46e5;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            animation: spin 1s linear infinite;
+            margin-right: 8px;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        /* Style for the eligibility score display */
+        #eligibilityScore {
+            font-size: 3rem;
+            line-height: 1;
+            font-weight: 900;
+            margin-bottom: 0.5rem;
+        }
+    </style>
+
+    <!--
+    ========================================================================================
+    FARCASTER FRAME META TAGS (Simulation)
+    ========================================================================================
+    
+    IMPORTANT NOTE:
+    * REPLACE "YOUR_LIVE_URL" with your public hosting URL.
+    * REPLACE "YOUR_IMAGE_URL" with your image URL (1.91:1 ratio).
+    * REPLACE "YOUR_MEDIUM_ARTICLE_URL" with your article link.
+    -->
+    
+    <!-- Initial Frame: Prompt for input -->
+    <meta property="fc:frame" content="vNext" />
+    <meta property="fc:frame:image" content="https://placehold.co/600x315/1d2b3a/ffffff?text=MONAD+AIRDROP+CHECKER+Analyze+Your+Activity" />
+    <meta property="fc:frame:input:text" content="Describe your crypto activity (e.g., 'I bridged to Arbitrum 10 times and did 5 Monad testnet transactions')" />
+    <meta property="fc:frame:post_url" content="YOUR_LIVE_URL/check-eligibility" />
+    <meta property="fc:frame:button:1" content="Check Eligibility Score 💯" />
+    <meta property="fc:frame:button:1:action" content="post" />
+
+</head>
+<body>
+
+    <!-- Main Application View -->
+    <div id="app" class="flex flex-col items-center justify-center p-4 sm:p-8 text-white frame-container mx-auto">
+        
+        <div class="text-center w-full max-w-xl p-6 bg-gray-800 rounded-xl shadow-2xl border border-gray-700">
+            <h1 class="text-3xl font-extrabold mb-4 gradient-text">Monad Airdrop Eligibility Checker (AI)</h1>
+            <p class="text-gray-400 mb-8">
+                Enter your crypto activity description. Gemini AI will analyze it and provide your most likely Monad airdrop eligibility score (1-100).
+            </p>
+            
+            <!-- Input Area for User Activity -->
+            <div class="mb-6">
+                <textarea id="activityInput" rows="4" placeholder="e.g., I did 5 Monad testnet transactions, ran a node, and was active in Discord for 3 months..." 
+                          class="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg text-sm text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"></textarea>
+            </div>
+
+            <button id="checkEligibilityBtn" onclick="checkEligibility()" class="btn-base btn-gemini w-full flex items-center justify-center">
+                <span id="buttonText">Check Airdrop Eligibility Score 💯</span>
+            </button>
+
+            <!-- Result Area -->
+            <div id="resultContainer" class="mt-8 p-6 bg-gray-900 rounded-lg text-left hidden border border-indigo-700">
+                <h2 class="text-2xl font-bold mb-3 text-indigo-400">Your Airdrop Eligibility Analysis:</h2>
+                
+                <div class="flex items-center mb-4">
+                    <span class="text-gray-300 mr-4 font-semibold">Eligibility Score (1-100):</span>
+                    <span id="eligibilityScore" class="gradient-text">--</span>
+                </div>
+
+                <div id="analysisText" class="text-sm text-gray-300 whitespace-pre-line mb-4"></div>
+                
+                <!-- Optimization Feature -->
+                <div id="optimizationSection" class="mt-4 pt-4 border-t border-gray-700 hidden">
+                    <button id="optimizeBtn" onclick="optimizeStrategy()" class="btn-base btn-gemini w-full flex items-center justify-center text-sm">
+                        <span id="optimizeBtnText">Optimize My Airdrop Strategy ✨</span>
+                    </button>
+                    <div id="optimizationResult" class="mt-4 p-3 bg-gray-800 rounded-lg text-left hidden">
+                        <p class="font-bold mb-2 text-emerald-400">Monad Optimization Suggestions:</p>
+                        <div id="optimizationText" class="text-sm text-gray-300 whitespace-pre-line"></div>
+                    </div>
+                </div>
+                <!-- End Optimization Feature -->
+
+                <p class="text-xs text-red-400 mt-4">
+                    *DISCLAIMER: This is an AI analysis based on market speculation. This score is NOT a guarantee from Monad Labs.*
+                </p>
+
+                <div id="sourcesContainer" class="mt-4 text-xs text-gray-500 border-t border-gray-700 pt-3">
+                    <p class="font-semibold mb-1">Analysis Sources (Grounded by Google Search):</p>
+                    <ul id="sourcesList" class="list-disc pl-5"></ul>
+                </div>
+            </div>
+
+            <!-- Link to your Medium Article -->
+            <a href="YOUR_MEDIUM_ARTICLE_URL" target="_blank" class="block mt-6">
+                <button class="btn-base w-full bg-purple-600 hover:bg-purple-700 text-white shadow-md">
+                    Read My In-Depth $MONAD Analysis 🧠
+                </button>
+            </a>
+            
+        </div>
+        
+    </div>
+
+    <script type="module">
+        // ====================================================================
+        // FIREBASE SETUP (Mandatory for Canvas environment)
+        // ====================================================================
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : null;
+        const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
+
+        let db;
+        let auth;
+        let userId = 'anonymous';
+
+        if (firebaseConfig) {
+            try {
+                const app = initializeApp(firebaseConfig);
+                db = getFirestore(app);
+                auth = getAuth(app);
+                
+                if (initialAuthToken) {
+                    signInWithCustomToken(auth, initialAuthToken).then(userCredential => {
+                        userId = userCredential.user.uid;
+                    }).catch(error => {
+                        signInAnonymously(auth).then(userCredential => {
+                            userId = userCredential.user.uid;
+                        });
+                    });
+                } else {
+                    signInAnonymously(auth).then(userCredential => {
+                        userId = userCredential.user.uid;
+                    });
+                }
+            } catch (error) {
+                console.error("Firebase initialization failed:", error);
+            }
+        }
+
+        // ====================================================================
+        // GEMINI API INTEGRATION
+        // ====================================================================
+        const apiKey = ""; 
+        const API_MODEL = 'gemini-2.5-flash-preview-09-2025';
+
+        const eligibilitySystemPrompt = "You are a Monad Airdrop Eligibility Analyst. Your role is to assess user activity based on probable airdrop criteria (Testnet usage, community contribution, general EVM activity, and high-value interactions). Your response MUST be structured to include a score from 1 to 100 and a detailed analysis. Your analysis should be critical and informative, grounded in real-time Monad news and speculation.";
+        
+        const optimizationSystemPrompt = "You are an Airdrop Strategy Consultant. Based on the provided activity summary and eligibility analysis, generate exactly three (3) specific, actionable steps a user should take right now to immediately increase their chances for the Monad Airdrop. Focus on current Testnet campaigns, high-value community interactions, and relevant cross-chain activity. Output MUST be a numbered list (1., 2., 3.) written in clear, concise English.";
+
+
+        // Implement Exponential Backoff
+        async function fetchWithBackoff(url, options, maxRetries = 5) {
+            for (let i = 0; i < maxRetries; i++) {
+                try {
+                    const response = await fetch(url, options);
+                    if (response.status !== 429) { 
+                        return response;
+                    }
+                    const delay = Math.pow(2, i) * 1000 + Math.random() * 1000;
+                    await new Promise(resolve => setTimeout(resolve, delay));
+                } catch (error) {
+                    console.error("Fetch attempt failed:", error);
+                    const delay = Math.pow(2, i) * 1000 + Math.random() * 1000;
+                    await new Promise(resolve => setTimeout(resolve, delay));
+                }
+            }
+            throw new Error('Max retries reached. API request failed.');
+        }
+
+        window.checkEligibility = async function() {
+            const input = document.getElementById('activityInput').value.trim();
+            const btn = document.getElementById('checkEligibilityBtn');
+            const scoreElement = document.getElementById('eligibilityScore');
+            const analysisTextDiv = document.getElementById('analysisText');
+            const resultContainer = document.getElementById('resultContainer');
+            const sourcesList = document.getElementById('sourcesList');
+            const optimizationSection = document.getElementById('optimizationSection');
+
+            if (!input) {
+                analysisTextDiv.innerHTML = 'Please describe your crypto activity for analysis.';
+                resultContainer.classList.remove('hidden');
+                scoreElement.textContent = '--';
+                return;
+            }
+
+            // UI Feedback (Loading)
+            btn.disabled = true;
+            resultContainer.classList.add('hidden');
+            optimizationSection.classList.add('hidden'); // Hide optimization section during check
+            scoreElement.textContent = '--';
+            analysisTextDiv.innerHTML = `<div class="flex items-center text-indigo-400"><div class="loading-spinner"></div>Analyzing eligibility (Using Gemini AI)...</div>`;
+            resultContainer.classList.remove('hidden');
+            sourcesList.innerHTML = '';
+            
+            const userPrompt = `Based on the most likely Monad airdrop criteria (Testnet, community, high-value EVM actions), assess the following user activity. Provide a score from 1 to 100 and a detailed analysis of their strengths and weaknesses.
+                                User Activity: "${input}"
+                                Format your response clearly: start with the score, followed by the analysis paragraph.`;
+
+            try {
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${API_MODEL}:generateContent?key=${apiKey}`;
+                
+                const payload = {
+                    contents: [{ parts: [{ text: userPrompt }] }],
+                    tools: [{ "google_search": {} }], // Enable Google Search grounding
+                    systemInstruction: {
+                        parts: [{ text: eligibilitySystemPrompt }]
+                    },
+                };
+
+                const response = await fetchWithBackoff(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                const result = await response.json();
+                const candidate = result.candidates?.[0];
+
+                if (candidate && candidate.content?.parts?.[0]?.text) {
+                    const text = candidate.content.parts[0].text;
+                    
+                    // Attempt to extract score (simple regex: find 1-3 digits at the start)
+                    const scoreMatch = text.match(/(\d{1,3})/);
+                    const score = scoreMatch ? scoreMatch[0] : 'N/A';
+                    
+                    scoreElement.textContent = score;
+                    
+                    let analysisContent = text;
+                    if (scoreMatch) {
+                        analysisContent = text.substring(scoreMatch.index + scoreMatch[0].length).trim();
+                        analysisContent = analysisContent.replace(/^[\s\W]*Score[\s\W]*\d{1,3}[\s\W]*/i, '').trim();
+                    }
+                    
+                    analysisTextDiv.textContent = analysisContent;
+                    
+                    // Show optimization section after successful check
+                    optimizationSection.classList.remove('hidden');
+
+
+                    // Extract grounding sources
+                    let sources = [];
+                    const groundingMetadata = candidate.groundingMetadata;
+                    if (groundingMetadata && groundingMetadata.groundingAttributions) {
+                        sources = groundingMetadata.groundingAttributions
+                            .map(attribution => ({
+                                uri: attribution.web?.uri,
+                                title: attribution.web?.title,
+                            }))
+                            .filter(source => source.uri && source.title)
+                            .slice(0, 3); // Max 3 sources
+                    }
+
+                    sourcesList.innerHTML = '';
+                    if (sources.length > 0) {
+                        sources.forEach((source, index) => {
+                            const li = document.createElement('li');
+                            li.innerHTML = `<a href="${source.uri}" target="_blank" class="text-blue-400 hover:text-blue-300 underline">${source.title}</a>`;
+                            sourcesList.appendChild(li);
+                        });
+                    } else {
+                         sourcesList.innerHTML = '<li>No specific sources found in search results.</li>';
+                    }
+
+                } else {
+                    scoreElement.textContent = '---';
+                    analysisTextDiv.textContent = 'Failed to generate eligibility analysis. Please try again.';
+                }
+
+            } catch (error) {
+                console.error("Gemini API call failed:", error);
+                scoreElement.textContent = '---';
+                analysisTextDiv.textContent = `Error: ${error.message}. Failed to connect to AI.`;
+            } finally {
+                btn.disabled = false;
+            }
+        }
+        
+        window.optimizeStrategy = async function() {
+            const input = document.getElementById('activityInput').value.trim();
+            const currentAnalysis = document.getElementById('analysisText').textContent;
+
+            const btn = document.getElementById('optimizeBtn');
+            const optimizationTextDiv = document.getElementById('optimizationText');
+            const optimizationResultDiv = document.getElementById('optimizationResult');
+
+            btn.disabled = true;
+            optimizationResultDiv.classList.remove('hidden');
+            optimizationTextDiv.innerHTML = `<div class="flex items-center text-emerald-400"><div class="loading-spinner"></div>Generating optimization plan...</div>`;
+
+            const optimizationPrompt = `User Activity Summary: "${input}". 
+                                        Current Eligibility Analysis: "${currentAnalysis}".
+                                        Generate 3 specific action steps to improve their eligibility now.`;
+            
+            try {
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${API_MODEL}:generateContent?key=${apiKey}`;
+                
+                const payload = {
+                    contents: [{ parts: [{ text: optimizationPrompt }] }],
+                    tools: [{ "google_search": {} }],
+                    systemInstruction: {
+                        parts: [{ text: optimizationSystemPrompt }]
+                    },
+                };
+
+                const response = await fetchWithBackoff(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                const result = await response.json();
+                const text = result.candidates?.[0]?.content?.parts?.[0]?.text;
+
+                if (text) {
+                    optimizationTextDiv.textContent = text;
+                } else {
+                    optimizationTextDiv.textContent = 'Failed to generate optimization suggestions. Please try again.';
+                }
+
+            } catch (error) {
+                console.error("Gemini API optimization call failed:", error);
+                optimizationTextDiv.textContent = `Error: ${error.message}. Failed to connect to AI for optimization.`;
+            } finally {
+                btn.disabled = false;
+            }
+        }
+        
+    </script>
+</body>
+</html>
